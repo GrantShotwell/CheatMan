@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController2D characterController;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] public Animator anim;
-    [SerializeField] private GhostTrail ghostTrail;
+    //[SerializeField] private GhostTrail ghostTrail;
     //private PlatformMovement pM;
 
     //movement
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController2D>();
-        ghostTrail = GetComponent<GhostTrail>();
+        //ghostTrail = GetComponent<GhostTrail>();
         dashSpeed = moveSpeed * dashSpeedMultiplier;
     }
 
@@ -261,12 +261,12 @@ public class PlayerController : MonoBehaviour
     {
         //sfxManager.PlaySFX("Jump", 0);
         dash = true;
-        ghostTrail.enabled = true;
+        //ghostTrail.enabled = true;
         yield return new WaitForSeconds(0.5f);
         if (isOnGround)
         {
             dash = false;
-            ghostTrail.enabled = false;
+            //ghostTrail.enabled = false;
         }
         else
         {
@@ -275,7 +275,7 @@ public class PlayerController : MonoBehaviour
                 yield return null;
             }
             dash = false;
-            ghostTrail.enabled = false;
+            //ghostTrail.enabled = false;
         }
     }
 
