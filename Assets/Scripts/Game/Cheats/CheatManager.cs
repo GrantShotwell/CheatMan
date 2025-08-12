@@ -7,7 +7,7 @@ namespace Game.Cheats {
 		[field: Inject]
 		public EnemyHealthCheat EnemyHealthCheat { get; private set; }
 
-		public void Register(object cheatable) {
+		public void Register(ICheatable cheatable) {
 			if (cheatable is IPlayerHealthCheatable playerHealthCheatable) {
 				// TODO
 			}
@@ -16,7 +16,7 @@ namespace Game.Cheats {
 			}
 		}
 
-		public void Unregister(object cheatable) {
+		public void Unregister(ICheatable cheatable) {
 			if (cheatable is IPlayerHealthCheatable playerHealthCheatable) {
 				// TODO
 			}
