@@ -4,17 +4,21 @@ using Zenject;
 
 namespace Game {
 	public class ExampleEnemy : MonoBehaviour, IEnemyHealthCheatable {
-		[SerializeField] private readonly CheatManager _cheatManager;
+		[Inject] private readonly CheatManager _cheatManager;
 
 		[field: SerializeField]
 		public AdjustableNumber Health { get; private set; } = new(10f);
+
+		private void Start() {
+			_cheatManager.Register(this);
+			_cheatManager.EnemyHealthCheat.EnableCheat();
+		}
 
 		private void Update() {
 			Debug.Log($"My health is {Health}!");
 		}
 
 		private void OnEnable() {
-			_cheatManager.Register(this);
 		}
 
 		private void OnDisable() {

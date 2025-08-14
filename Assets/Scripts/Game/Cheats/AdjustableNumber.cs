@@ -55,12 +55,12 @@ namespace Game.Cheats {
 			public ScaleReference(AdjustableNumber value, float amount) {
 				_value = value;
 				_amount = amount;
-				value._scale += amount;
+				value._scale *= amount;
 			}
 
 			public void Dispose() {
 				if (_disposed) return;
-				_value._scale -= _amount;
+				_value._scale /= _amount;
 				_disposed = true;
 			}
 		}
@@ -100,6 +100,10 @@ namespace Game.Cheats {
 				_disposed = true;
 			}
 		}
+
+		public static implicit operator float(AdjustableNumber adjustable) => adjustable.Value;
+
+		public override string ToString() => Value.ToString();
 
 	}
 }

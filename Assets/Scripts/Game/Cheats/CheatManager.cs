@@ -4,6 +4,8 @@ using Zenject;
 namespace Game.Cheats {
 	public class CheatManager {
 
+		public bool IsCheating { get; private set; }
+
 		[field: Inject]
 		public EnemyHealthCheat EnemyHealthCheat { get; private set; }
 
