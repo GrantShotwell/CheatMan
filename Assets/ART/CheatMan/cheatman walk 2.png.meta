@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 61521df2e071645488ba3d05e49289ae
+guid: 4272dc47d0fc0ff409bc9abb5bcfc034
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3691463601059337291
-    second: DOTweenMiniIcon_0
+      213: 7498551916426680273
+    second: cheatman walk 2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DOTweenMiniIcon_0
+      name: cheatman walk 2_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 9
-        height: 9
+        x: 80
+        y: 45
+        width: 714
+        height: 818
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b441d624696ba3330800000000000000
-      internalID: 3691463601059337291
+      spriteID: 1d7df6c2d35301860800000000000000
+      internalID: 7498551916426680273
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DOTweenMiniIcon_0: 3691463601059337291
+      cheatman walk 2_0: 7498551916426680273
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
