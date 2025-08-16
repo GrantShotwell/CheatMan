@@ -11,7 +11,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] AudioClip damagedSFX;
     [SerializeField] AudioClip shieldBreakSFX;
     [SerializeField] AudioClip gameOverSFX;
-    [SerializeField] AudioClip[] kuhoProjectileSFX;
+    [SerializeField] AudioClip cheatAttackSFX;
 
     public void PlaySFX(string clipToPlay,int clipNum)
     {
@@ -21,7 +21,7 @@ public class SFXManager : MonoBehaviour
                 audioSource.clip = coinSFX;
                 break;
             case "kuhoProjectileSFX":
-                audioSource.clip = kuhoProjectileSFX[clipNum];
+                audioSource.clip = cheatAttackSFX;
                 break;
             case "Jump":
                 audioSource.clip = jumpSFX;

@@ -112,103 +112,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Punch_0
-      rect:
-        serializedVersion: 2
-        x: 606
-        y: 651
-        width: 38
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 152ca91207236d3c0800000000000000
-      internalID: -4335222134116007343
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Punch_1
-      rect:
-        serializedVersion: 2
-        x: 673
-        y: 615
-        width: 37
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d7dc6b1d1d33246b0800000000000000
-      internalID: -5313627634084164227
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Punch_2
-      rect:
-        serializedVersion: 2
-        x: 588
-        y: 585
-        width: 64
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 50ee400e91398eb20800000000000000
-      internalID: 3163940477569658373
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Punch_3
-      rect:
-        serializedVersion: 2
-        x: 662
-        y: 585
-        width: 23
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 859641a900890d390800000000000000
-      internalID: -7795563826625877672
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Punch_4
       rect:
         serializedVersion: 2
-        x: 704
+        x: 806
         y: 583
-        width: 181
+        width: 79
         height: 63
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,7 +137,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e68956652bca2e649b30fb7cf1d10570
     internalID: 0
     vertices: []
     indices: 

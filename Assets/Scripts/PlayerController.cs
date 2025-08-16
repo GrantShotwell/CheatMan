@@ -291,6 +291,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("IsShooting", true);
         arm.SetShoot(true);
         //hitbox becomes active
+        StartCoroutine("CheckForProjectile");
         yield return new WaitForSeconds(timeSwordHitbox);
         anim.SetBool("IsShooting", false);
         arm.SetShoot(false);
@@ -339,10 +340,10 @@ public class PlayerController : MonoBehaviour
     }
     public void CheckForProjectile()
     {
-        if (!projectileOut)
-        {
+        //if (!projectileOut)
+        //{
             int randomProjectile = Random.Range(0, projectilePrefab.Length);
-            if (spriteRenderer.flipX)
+            if (!spriteRenderer.flipX)
             {
                 var obj = Instantiate(projectilePrefab[randomProjectile], launchOffsetRight.position, transform.rotation);
                 var rbP = obj.GetComponent<Rigidbody2D>();
@@ -357,7 +358,7 @@ public class PlayerController : MonoBehaviour
             sfxManager.PlaySFX("kuhoProjectileSFX", randomProjectile);
             projectileOut = true;
             StartCoroutine("EnableProjectileCoroutine", timeBetweenProjectile);
-        }
+        //}
     }
     public void OnMove(InputAction.CallbackContext context)
     {

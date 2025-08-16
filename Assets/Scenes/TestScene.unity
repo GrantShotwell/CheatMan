@@ -157,6 +157,7 @@ Transform:
   m_Children:
   - {fileID: 1829480307}
   - {fileID: 343597644}
+  - {fileID: 1262621775}
   m_Father: {fileID: 721986313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &132210606
@@ -176,7 +177,7 @@ MonoBehaviour:
   healthManager: {fileID: 651630326}
   projectilePrefab:
   - {fileID: 5070997043150689365, guid: 612b682ef77e561488b9d6286c30b8a0, type: 3}
-  launchOffsetLeft: {fileID: 0}
+  launchOffsetLeft: {fileID: 1262621775}
   launchOffsetRight: {fileID: 343597644}
   loadLevelID: 0
   jumpHeight: 5
@@ -887,7 +888,7 @@ MonoBehaviour:
   damagedSFX: {fileID: 0}
   shieldBreakSFX: {fileID: 0}
   gameOverSFX: {fileID: 0}
-  kuhoProjectileSFX: []
+  cheatAttackSFX: {fileID: 8300000, guid: 744a9f83791d44844ba5a1916ffc67d8, type: 3}
 --- !u!82 &1112844005
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1082,6 +1083,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1262621774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1262621775}
+  m_Layer: 0
+  m_Name: LeftSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1262621775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262621774}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.27, y: 0.82, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 132210605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1338350907
 GameObject:
   m_ObjectHideFlags: 0
