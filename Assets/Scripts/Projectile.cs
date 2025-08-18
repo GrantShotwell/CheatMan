@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
     {
         if (playerProjectile)
         {
-            if (!collision.transform.CompareTag("PlayerProjectile") && !collision.transform.CompareTag("Kuho"))
+            if (!collision.transform.CompareTag("PlayerProjectile") && !collision.transform.CompareTag("Player"))
             {
                 Destroy(gameObject);
             }

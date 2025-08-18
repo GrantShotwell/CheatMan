@@ -66,6 +66,9 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private GhostTrail ghostTrail;
     //private PlatformMovement pM;
 
+    //Arm Child
+    [SerializeField] ArmGetAnim arm;
+
     //movement
     private Vector2 velocity = Vector2.zero;
 
@@ -187,7 +190,8 @@ public class PlayerController : MonoBehaviour
     private void UpdateAnimations()
     {
         if (anim == null) return;
-
+        arm.SetGround(isOnGround);
+        arm.SetIdle(velocity.x != 0 && isOnGround);
         anim.SetBool("IsGrounded", isOnGround);
         anim.SetBool("IsMoving", velocity.x != 0 && isOnGround);
         anim.SetBool("Jump", velocity.y > 0 && !isOnGround);
@@ -202,6 +206,7 @@ public class PlayerController : MonoBehaviour
         {
             spriteRenderer.flipX = velocity.x < 0;
         }
+        arm.ChangeOrientation(spriteRenderer.flipX);
     }
 
     public void OnJumpPressed(InputAction.CallbackContext context)
@@ -296,8 +301,13 @@ public class PlayerController : MonoBehaviour
     {
         //sfxManager.PlaySFX("Jump", 0);
         attacking = true;
+        anim.SetBool("IsShooting", true);
+        arm.SetShoot(true);
         //hitbox becomes active
+        StartCoroutine("CheckForProjectile");
         yield return new WaitForSeconds(timeSwordHitbox);
+        anim.SetBool("IsShooting", false);
+        arm.SetShoot(false);
         attacking = false;
         //hitbox dies
     }
@@ -343,10 +353,10 @@ public class PlayerController : MonoBehaviour
     }
     public void CheckForProjectile()
     {
-        if (!projectileOut)
-        {
+        //if (!projectileOut)
+        //{
             int randomProjectile = Random.Range(0, projectilePrefab.Length);
-            if (spriteRenderer.flipX)
+            if (!spriteRenderer.flipX)
             {
                 var obj = Instantiate(projectilePrefab[randomProjectile], launchOffsetRight.position, transform.rotation);
                 var rbP = obj.GetComponent<Rigidbody2D>();
@@ -361,7 +371,7 @@ public class PlayerController : MonoBehaviour
             sfxManager.PlaySFX("kuhoProjectileSFX", randomProjectile);
             projectileOut = true;
             StartCoroutine("EnableProjectileCoroutine", timeBetweenProjectile);
-        }
+        //}
     }
     public void OnMove(InputAction.CallbackContext context)
     {
