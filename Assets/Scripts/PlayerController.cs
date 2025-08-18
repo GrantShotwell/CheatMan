@@ -5,12 +5,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.VFX;
 using UnityEngine.Windows;
+using Game.Cheats;
+using Zenject;
 
 [SelectionBase]
 [RequireComponent(typeof(CharacterController2D))]
 
 public class PlayerController : MonoBehaviour
 {
+    [Inject] private readonly CheatManager cheatManager;
+
     [SerializeField] SFXManager sfxManager;
     [SerializeField] UIController uiController;
     [SerializeField] HealthManager healthManager;
@@ -207,6 +211,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpPressed(InputAction.CallbackContext context)
     {
+        if (cheatManager.IsCheating)
+        {
+            holdingJump = false;
+            return;
+        }
         if (context.performed && (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f))
         {
             sfxManager.PlaySFX("Jump", 0);
@@ -233,6 +242,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttackPressed(InputAction.CallbackContext context)
     {
+        if (cheatManager.IsCheating)
+        {
+            return;
+        }
         if (context.performed)//&& (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f))
         {
             StartCoroutine("PlayerAttack");
@@ -362,6 +375,11 @@ public class PlayerController : MonoBehaviour
     }
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (cheatManager.IsCheating)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
         moveInput = context.ReadValue<Vector2>();
     }
 

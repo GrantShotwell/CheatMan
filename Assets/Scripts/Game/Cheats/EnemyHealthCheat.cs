@@ -6,7 +6,7 @@ namespace Assets.Scripts.Game.Cheats {
 
 		private readonly AdjustmentDictionary<IEnemyHealthCheatable> _adjustments;
 
-		public EnemyHealthCheat(AdjustmentDictionary<IEnemyHealthCheatable> adjustments) {
+		public EnemyHealthCheat() {
 			this._adjustments = new(Apply);
 		}
 

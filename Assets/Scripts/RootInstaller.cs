@@ -1,22 +1,21 @@
 using Assets.Scripts.Game.Cheats;
-using Game;
 using Game.Cheats;
 using UnityEngine;
 using Zenject;
 
 public class RootInstaller : MonoInstaller {
 
-	[SerializeField] private GameObject _exampleEnemyPrefab;
+	[SerializeField] private CheatPopupController _cheatPopupController;
 
 	public override void InstallBindings() {
 		InstallCheats();
-		Container.BindFactory<ExampleEnemy, ExampleEnemy.Factory>()
-			.FromComponentInNewPrefab(_exampleEnemyPrefab)
-			.AsSingle();
 	}
 
 	private void InstallCheats() {
 		Container.BindInterfacesAndSelfTo<CheatManager>()
+			.AsSingle();
+		Container.BindInterfacesAndSelfTo<CheatPopupController>()
+			.FromInstance(_cheatPopupController)
 			.AsSingle();
 		Container.BindInterfacesAndSelfTo<EnemyHealthCheat>()
 			.AsSingle();
