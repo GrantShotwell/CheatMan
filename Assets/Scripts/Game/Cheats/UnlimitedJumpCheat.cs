@@ -8,7 +8,7 @@ namespace Assets.Scripts.Game.Cheats {
 	public class UnlimitedJumpCheat : SimpleCheat<PlayerController> {
 
 		protected override IDisposable Apply(PlayerController cheatable) {
-			return cheatable.jumpCountMax.Override(float.PositiveInfinity);
+			return cheatable.jumpCountMax.Offset(float.PositiveInfinity);
 		}
 
 	}

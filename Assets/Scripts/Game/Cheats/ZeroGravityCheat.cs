@@ -9,7 +9,7 @@ namespace Assets.Scripts.Game.Cheats {
 	public class ZeroGravityCheat : SimpleCheat<PlayerController> {
 
 		protected override IDisposable Apply(PlayerController cheatable) {
-			return cheatable.wallJumpEnabled.Override(true);
+			return cheatable.gravityDownwardsMultiplier.Override(0f);
 		}
 	}
 }
