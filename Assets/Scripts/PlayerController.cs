@@ -7,11 +7,13 @@ using UnityEngine.VFX;
 using UnityEngine.Windows;
 using Game.Cheats;
 using Zenject;
+using Assets.Scripts.Game.Cheats;
+using NUnit.Framework.Constraints;
 
 [SelectionBase]
 [RequireComponent(typeof(CharacterController2D))]
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ICheatable
 {
     [Inject] private readonly CheatManager cheatManager;
 
@@ -24,40 +26,46 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int loadLevelID;
 
     [Header("Jump")]
-    [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private float wallJumpHeightMultiplier = 1f;
-    [SerializeField] private float jumpHangTime = 2f;
-    [SerializeField] private float gravityDownwardsMultiplier = 1f;
-    [SerializeField] private float variableJumpMultiplier = 0.5f;
-    [SerializeField] private float coyoteTime = 0.1f;
-    [SerializeField] private float horizontalJumpDist = 5f;
-    [SerializeField] private float horizontalWallOffsetDist = 5f;
+    [SerializeField] public AdjustableNumber jumpCountMax = new(1f);
+    [SerializeField] public AdjustableNumber jumpHeight = new(2f);
+    [SerializeField] public AdjustableNumber wallJumpHeightMultiplier = new(1f);
+    [SerializeField] public AdjustableNumber jumpHangTime = new(2f);
+    [SerializeField] public AdjustableNumber gravityDownwardsMultiplier = new(1f);
+    [SerializeField] public AdjustableNumber variableJumpMultiplier = new(0.5f);
+    [SerializeField] public AdjustableNumber coyoteTime = new(0.1f);
+    [SerializeField] public AdjustableNumber horizontalJumpDist = new(5f);
+    [SerializeField] public AdjustableNumber horizontalWallOffsetDist = new(5f);
 
     [Header("Ground Movement")]
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float dashSpeedMultiplier = 3;
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float acceleration = 2f;
-    [SerializeField] private float deceleration = 2f;
-    [SerializeField] private float knockbackDist = 5f;
-    [SerializeField] private float dashDist = 100f;
+    [SerializeField] public AdjustableNumber moveSpeed = new(2f);
+    [SerializeField] public AdjustableNumber dashSpeedMultiplier = new(3f);
+    [SerializeField] public AdjustableNumber dashSpeed;
+    [SerializeField] public AdjustableNumber acceleration = new(2f);
+    [SerializeField] public AdjustableNumber deceleration = new(2f);
+    [SerializeField] public AdjustableNumber knockbackDist = new(5f);
+    [SerializeField] public AdjustableNumber dashDist = new(100f);
+    [SerializeField] public AdjustableBoolean dashEnabled = new(false);
+	[SerializeField] public AdjustableBoolean wallJumpEnabled = new(false); // TODO: Implement
 
-    [Header("Wall Slide")]
-    [SerializeField] private float wallSlideGravityMultiplier = 0.5f;
-    [SerializeField] private float wallSlideMaxTime = 2f;
-    [SerializeField] private float wallJumpCoyoteTime = 0.1f;
+	[Header("Wall Slide")]
+    [SerializeField] public AdjustableNumber wallSlideGravityMultiplier = new(0.5f);
+    [SerializeField] public AdjustableNumber wallSlideMaxTime = new(2f);
+    [SerializeField] public AdjustableNumber wallJumpCoyoteTime = new(0.1f);
 
     [Header("Player Properties")]
-    [SerializeField] float iframeSeconds = 1.0f;
-    [SerializeField] bool invincible = false;
+    [SerializeField] public AdjustableNumber iframeSeconds = new(1.0f);
+    [SerializeField] public AdjustableBoolean invincible = new(false);
     public bool controlEnabled = true;
 
     [Header("Player Attacking")]
-    [SerializeField] float projectileSpeed = 30f;
-    [SerializeField] float timeBetweenProjectile = 0.5f;
-    [SerializeField] float timeSwordHitbox = 0.5f;
+    [SerializeField] public AdjustableNumber projectileSpeed = new(30f);
+    [SerializeField] public AdjustableNumber timeBetweenProjectile = new(0.5f);
+    [SerializeField] public AdjustableNumber timeSwordHitbox = new(0.5f);
     [SerializeField] private bool projectileOut = false;
 
+    [Header("Visual Effects")]
+    [SerializeField] public AdjustableBoolean enableBow = new(false); // TODO
+    [SerializeField] public AdjustableBoolean enableHat = new(false); // TODO
 
     //Components
     private CharacterController2D characterController;
@@ -85,6 +93,7 @@ public class PlayerController : MonoBehaviour
     private float jumpBufferTimeCurrent = 0f;
 
     //Wallslide/jump
+    private int currentJumpCount = 0;
     private float lastWallSlideInputDirection = 0f;
 
     // Convenience properties
@@ -100,7 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController2D>();
         //ghostTrail = GetComponent<GhostTrail>();
-        dashSpeed = moveSpeed * dashSpeedMultiplier;
+        dashSpeed.Value = moveSpeed * dashSpeedMultiplier;
     }
 
     private void Update()
@@ -211,14 +220,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpPressed(InputAction.CallbackContext context)
     {
-        if (cheatManager.IsCheating)
+        bool groundedJumpCondition = (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f);
+        bool airborneJumpCondition = (!holdingJump && currentJumpCount < jumpCountMax);
+		if (context.performed && (groundedJumpCondition || airborneJumpCondition))
         {
-            holdingJump = false;
-            return;
-        }
-        if (context.performed && (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f))
-        {
-            sfxManager.PlaySFX("Jump", 0);
+			if (sfxManager) sfxManager.PlaySFX("Jump", 0);
             coyoteTimeCurrent = 0.0f;
             if (isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f)
             {
@@ -231,7 +237,15 @@ public class PlayerController : MonoBehaviour
                 velocity.y = jumpForce + Mathf.Abs(jumpGravity * Time.deltaTime);
             }
             holdingJump = true;
-        }
+            if (!groundedJumpCondition && airborneJumpCondition)
+            {
+                currentJumpCount++;
+            }
+            else
+            {
+                currentJumpCount = 1;
+			}
+		}
 
         if (context.canceled && holdingJump && velocity.y > 0.0f)
         {
@@ -242,10 +256,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttackPressed(InputAction.CallbackContext context)
     {
-        if (cheatManager.IsCheating)
-        {
-            return;
-        }
         if (context.performed)//&& (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f))
         {
             StartCoroutine("PlayerAttack");
@@ -277,6 +287,10 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator PlayerSetDash()
     {
+        if (!dashEnabled)
+        {
+            yield break;
+        }
         //sfxManager.PlaySFX("Jump", 0);
         dash = true;
         //ghostTrail.enabled = true;
@@ -317,7 +331,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Damaged", true);
         var playerController = GetComponent<PlayerController>();
         playerController.PlayerKnockedback();
-        sfxManager.PlaySFX("KuhoDamage", 0);
+		if (sfxManager) sfxManager.PlaySFX("KuhoDamage", 0);
         yield return new WaitForSeconds(1);
         anim.SetBool("Damaged", false);
     }
@@ -368,18 +382,13 @@ public class PlayerController : MonoBehaviour
                 var rbP = obj.GetComponent<Rigidbody2D>();
                 rbP.linearVelocity = new Vector2(Mathf.Cos(transform.rotation.z + 180), Mathf.Sin(transform.rotation.z)) * projectileSpeed;
             }
-            sfxManager.PlaySFX("kuhoProjectileSFX", randomProjectile);
+            if (sfxManager) sfxManager.PlaySFX("kuhoProjectileSFX", randomProjectile);
             projectileOut = true;
-            StartCoroutine("EnableProjectileCoroutine", timeBetweenProjectile);
+            StartCoroutine(EnableProjectileCoroutine(timeBetweenProjectile));
         //}
     }
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (cheatManager.IsCheating)
-        {
-            moveInput = Vector2.zero;
-            return;
-        }
         moveInput = context.ReadValue<Vector2>();
     }
 
@@ -399,7 +408,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    sfxManager.PlaySFX("GameOver", 0);
+					if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
                     uiController.ShowGameOverScreen();
                 }
             }
@@ -418,14 +427,14 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    sfxManager.PlaySFX("GameOver", 0);
+					if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
                     uiController.ShowGameOverScreen();
                 }
             }
         }
         if (collision.transform.CompareTag("DeathZone"))
         {
-            sfxManager.PlaySFX("GameOver", 0);
+			if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
             uiController.ShowGameOverScreen();
         }
         Debug.Log("Collision");

@@ -582,30 +582,53 @@ MonoBehaviour:
   launchOffsetLeft: {fileID: 1030242088}
   launchOffsetRight: {fileID: 694314051}
   loadLevelID: 0
-  jumpHeight: 10
-  wallJumpHeightMultiplier: 1
-  jumpHangTime: 0.7
-  gravityDownwardsMultiplier: 1
-  variableJumpMultiplier: 0.5
-  coyoteTime: 0.1
-  horizontalJumpDist: 6
-  horizontalWallOffsetDist: 8
-  moveSpeed: 20
-  dashSpeedMultiplier: 3
-  dashSpeed: 40
-  acceleration: 500
-  deceleration: 500
-  knockbackDist: 100
-  dashDist: 100
-  wallSlideGravityMultiplier: 0.5
-  wallSlideMaxTime: 2
-  wallJumpCoyoteTime: 0.1
-  iframeSeconds: 1
-  invincible: 0
+  jumpCountMax:
+    _value: 1
+  jumpHeight:
+    _value: 10
+  wallJumpHeightMultiplier:
+    _value: 1
+  jumpHangTime:
+    _value: 0.7
+  gravityDownwardsMultiplier:
+    _value: 1
+  variableJumpMultiplier:
+    _value: 0.5
+  coyoteTime:
+    _value: 0.1
+  horizontalJumpDist:
+    _value: 6
+  horizontalWallOffsetDist:
+    _value: 8
+  moveSpeed:
+    _value: 20
+  dashSpeedMultiplier:
+    _value: 3
+  dashSpeed:
+    _value: 40
+  acceleration:
+    _value: 500
+  deceleration:
+    _value: 500
+  knockbackDist:
+    _value: 100
+  dashDist:
+    _value: 100
+  wallSlideGravityMultiplier:
+    _value: 0.5
+  wallSlideMaxTime:
+    _value: 2
+  wallJumpCoyoteTime:
+    _value: 0.1
+  iframeSeconds:
+    _value: 1
   controlEnabled: 1
-  projectileSpeed: 50
-  timeBetweenProjectile: 0.5
-  timeSwordHitbox: 0.5
+  projectileSpeed:
+    _value: 50
+  timeBetweenProjectile:
+    _value: 0.5
+  timeSwordHitbox:
+    _value: 0.5
   projectileOut: 0
   spriteRenderer: {fileID: 392172732}
   anim: {fileID: 392172731}
@@ -729,7 +752,6 @@ GameObject:
   m_Component:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
-  - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
@@ -738,14 +760,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &519420029
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
 --- !u!114 &519420030
 MonoBehaviour:
   m_ObjectHideFlags: 0

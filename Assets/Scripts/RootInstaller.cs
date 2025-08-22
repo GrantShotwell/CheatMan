@@ -17,8 +17,11 @@ public class RootInstaller : MonoInstaller {
 		Container.BindInterfacesAndSelfTo<CheatPopupController>()
 			.FromInstance(_cheatPopupController)
 			.AsSingle();
-		Container.BindInterfacesAndSelfTo<EnemyHealthCheat>()
-			.AsSingle();
+		Container.BindInterfacesAndSelfTo<DashCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<SuperSpeedCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<UnlimitedJumpCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<WallJumpCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<ZeroGravityCheat>().AsSingle();
 	}
 
 }
