@@ -11,6 +11,7 @@ namespace Game.Cheats {
 	public class CheatManager : IDisposable {
 
 		private readonly CheatPopupController _popup;
+		private readonly CheatDisplayController _display;
 		private readonly CancellationTokenSource _disposeCts = new();
 
 		public IEnumerable<ICheat> Cheats {
@@ -29,8 +30,9 @@ namespace Game.Cheats {
 		[field: Inject] public WallJumpCheat WallJump { get; private set; }
 		[field: Inject] public ZeroGravityCheat ZeroGravity { get; private set; }
 
-		public CheatManager(CheatPopupController popup) {
+		public CheatManager(CheatPopupController popup, CheatDisplayController display) {
 			Subscribe(this._popup = popup);
+			this._display = display;
 		}
 
 		public void Dispose() {
@@ -90,9 +92,12 @@ namespace Game.Cheats {
 		}
 
 		private async UniTask RunCheat(CheatActivation activation, CancellationToken cancellationToken = default) {
-			activation.Cheat.EnableCheat();
-			await UniTask.WaitForSeconds(activation.DurationSeconds, cancellationToken: cancellationToken);
-			activation.Cheat.DisableCheat();
+			try {
+				activation.Cheat.EnableCheat();
+				await _display.RunActivation(activation, cancellationToken);
+			} finally {
+				activation.Cheat.DisableCheat();
+			}
 		}
 	}
 }

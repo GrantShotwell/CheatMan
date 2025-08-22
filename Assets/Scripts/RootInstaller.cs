@@ -6,6 +6,7 @@ using Zenject;
 public class RootInstaller : MonoInstaller {
 
 	[SerializeField] private CheatPopupController _cheatPopupController;
+	[SerializeField] private CheatDisplayController _cheatDisplayController;
 
 	public override void InstallBindings() {
 		InstallCheats();
@@ -16,6 +17,9 @@ public class RootInstaller : MonoInstaller {
 			.AsSingle();
 		Container.BindInterfacesAndSelfTo<CheatPopupController>()
 			.FromInstance(_cheatPopupController)
+			.AsSingle();
+		Container.BindInterfacesAndSelfTo<CheatDisplayController>()
+			.FromInstance(_cheatDisplayController)
 			.AsSingle();
 		Container.BindInterfacesAndSelfTo<DashCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<SuperSpeedCheat>().AsSingle();

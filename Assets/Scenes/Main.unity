@@ -626,6 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cheatPopupController: {fileID: 1619277834}
+  _cheatDisplayController: {fileID: 1160409347}
 --- !u!114 &1120458531
 MonoBehaviour:
   m_ObjectHideFlags: 0
