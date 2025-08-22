@@ -9,6 +9,8 @@ namespace Assets.Scripts.Game.Cheats {
 	public abstract class SimpleCheat<T> : ICheat<T> where T : ICheatable {
 		private readonly AdjustmentDictionary<T> _adjustments;
 
+		public bool Enabled => this._adjustments.Enabled;
+
 		public SimpleCheat() {
 			this._adjustments = new(Apply);
 		}
