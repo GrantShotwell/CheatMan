@@ -423,6 +423,7 @@ MonoBehaviour:
   projectileOut: 0
   spriteRenderer: {fileID: 284306613}
   anim: {fileID: 284306612}
+  arm: {fileID: 0}
   dash: 0
   attacking: 0
 --- !u!114 &284306615
@@ -636,7 +637,7 @@ SpriteRenderer:
   m_Size: {x: 2.14, y: 2.08}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &351130732
@@ -1410,6 +1411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 654b0648e8b9a1e49af182ac35e3b4bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openDuration: 0.5
   _group: {fileID: 360256007}
   _text: {fileID: 351130734}
 --- !u!1660057539 &9223372036854775807
