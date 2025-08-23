@@ -97,10 +97,11 @@ namespace Game.Levels.Enemies {
 			return Vector2.Distance(_player.transform.position, transform.position) < 100f;
 		}
 
-		public virtual int DealContactDamage(int health, out bool hit) {
+		public virtual float GetContactDamage(PlayerController player, float health, out bool hit) {
+			Debug.Log(player);
 			float damage = Mathf.Max(contactDamage, 0f);
-			hit = damage <= 0;
-			return health - Mathf.CeilToInt(contactDamage);
+			hit = damage > 0f;
+			return Mathf.CeilToInt(contactDamage);
 		}
 
 	}

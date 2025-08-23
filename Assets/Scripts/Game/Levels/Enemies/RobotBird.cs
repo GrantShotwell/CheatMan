@@ -28,9 +28,8 @@ namespace Game.Levels.Enemies {
 				pos.y = height + _startingPosition.y;
 				pos.x -= movementSpeed * Time.deltaTime;
 				transform.localPosition = pos;
-				await UniTask.NextFrame(PlayerLoopTiming.Update);
+				await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken: cancellationToken);
 			}
 		}
-
 	}
 }

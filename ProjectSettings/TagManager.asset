@@ -9,6 +9,7 @@ TagManager:
   - DeathZone
   - PlayerProjectile
   - Undefined
+  - Obstacle
   layers:
   - Default
   - TransparentFX

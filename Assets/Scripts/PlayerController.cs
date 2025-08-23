@@ -10,6 +10,9 @@ using Zenject;
 using Assets.Scripts.Game.Cheats;
 using NUnit.Framework.Constraints;
 using UnityEditor.ShortcutManagement;
+using Game.Levels.Enemies;
+using Game.Levels.Obstacles;
+using Cysharp.Threading.Tasks.Triggers;
 
 [SelectionBase]
 [RequireComponent(typeof(CharacterController2D))]
@@ -419,67 +422,30 @@ public class PlayerController : MonoBehaviour, ICheatable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("EnemyProjectile"))
-        {
-            if (!invincible)
-            {
-                healthManager.TakeDamage(25);
-
-                if (healthManager.healthAmount > 0)
-                {
-                    Destroy(collision.gameObject);
-                    StartCoroutine("DamagedCoroutine", 1);
-                    StartCoroutine("iframeCoroutine");
-                }
-                else
-                {
-					if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
-                    uiController.ShowGameOverScreen();
-                }
-            }
-
-        }
-        if (collision.transform.CompareTag("Enemy"))
-        {
-            if (!invincible)
-            {
-                healthManager.TakeDamage(25);
-
-                if (healthManager.healthAmount > 0)
-                {
-                    StartCoroutine("DamagedCoroutine", 1);
-                    StartCoroutine("iframeCoroutine");
-                }
-                else
-                {
-					if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
-                    uiController.ShowGameOverScreen();
-                }
-            }
-        }
+		CheckForDamageDealers(collision.gameObject);
         if (collision.transform.CompareTag("DeathZone"))
         {
 			if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
             uiController.ShowGameOverScreen();
         }
-        Debug.Log("Collision");
-    }
+	}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        /*if (collision.CompareTag("Collectable"))
+		CheckForDamageDealers(collision.gameObject);
+		/*if (collision.CompareTag("Collectable"))
         {
             collectedCoins++;
             sfxManager.PlaySFX("Coin");
             Destroy(collision.gameObject);
         }*/
 
-        if (collision.CompareTag("NextLevel"))
-        {
-            StartCoroutine("LoadSceneAsync");
-        }
+		//if (collision.CompareTag("NextLevel"))
+		//{
+		//    StartCoroutine("LoadSceneAsync");
+		//}
 
-        /*if (collision.CompareTag("Shield"))
+		/*if (collision.CompareTag("Shield"))
         {
             if (hasShield == false)
             {
@@ -489,5 +455,53 @@ public class PlayerController : MonoBehaviour, ICheatable
                 hasShield = true;
             }
         }*/
-    }
+	}
+
+    private void CheckForDamageDealers(GameObject target)
+    {
+		Debug.Log(target.name, target);
+		if (invincible)
+        {
+            return;
+		}
+        bool damaged = false;
+        float damage = 0f;
+		if (target.transform.CompareTag("Enemy"))
+        {
+			var enemy = target.GetComponent<Enemy>();
+			if (enemy)
+            {
+				damage += enemy.GetContactDamage(this, healthManager.healthAmount, out bool hit);
+                damaged = damaged || hit;
+			}
+		}
+        if (target.transform.CompareTag("Obstacle"))
+        {
+			var obstacle = target.GetComponent<Obstacle>();
+			if (obstacle)
+            {
+				damage += obstacle.GetContactDamage(this, healthManager.healthAmount, out bool hit);
+				damaged = damaged || hit;
+			}
+		}
+		if (target.transform.CompareTag("EnemyProjectile")) {
+            damage += 25;
+            damaged = true;
+		}
+		if (!damaged)
+        {
+            return;
+		}
+		healthManager.TakeDamage(damage);
+		if (healthManager.healthAmount > 0)
+        {
+			StartCoroutine("DamagedCoroutine", 1);
+			StartCoroutine("iframeCoroutine");
+		}
+        else
+        {
+			if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
+			uiController.ShowGameOverScreen();
+		}
+	}
 }

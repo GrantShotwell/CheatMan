@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.Cheats {
+namespace Game.Cheats {
+	[Serializable]
 	public class AdjustableBoolean {
 
 		[SerializeField] private bool _value = false;
