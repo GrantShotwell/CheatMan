@@ -14,7 +14,7 @@
 		bool TryUnregister(ICheatable cheatable);
 
 	}
-	public interface ICheat<T> : ICheat where T : ICheatable {
+	public interface ICheat<in T> : ICheat where T : ICheatable {
 
 		void OnRegistered(T cheatable);
 
