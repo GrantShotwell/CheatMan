@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Game.Cheats {
@@ -6,8 +8,8 @@ namespace Game.Cheats {
 	public class AdjustableNumber {
 
 		[SerializeField] private float _value = 0f;
-		private float _scale = 1f;
-		private float _offset = 0f;
+		private List<float> _scale = new(1);
+		private List<float> _offset = new(1);
 		private float? _override = null;
 		IDisposable _overrideObj = null;
 
@@ -16,12 +18,16 @@ namespace Game.Cheats {
 				if (_override != null) {
 					return _override.Value;
 				}
-				return (_value * _scale) + _offset;
+				return (_value * ScaleTotal) + OffsetTotal;
 			}
 			set {
 				_value = value;
 			}
 		}
+
+		private float ScaleTotal => _scale.Aggregate(1f, (a, b) => a * b);
+
+		private float OffsetTotal => _offset.Aggregate(1f, (a, b) => a + b);
 
 		public AdjustableNumber(float value) {
 			_value = value;
@@ -55,12 +61,12 @@ namespace Game.Cheats {
 			public ScaleReference(AdjustableNumber value, float amount) {
 				_value = value;
 				_amount = amount;
-				value._scale *= amount;
+				value._scale.Add(amount);
 			}
 
 			public void Dispose() {
 				if (_disposed) return;
-				_value._scale /= _amount;
+				_value._scale.Remove(_amount);
 				_disposed = true;
 			}
 		}
@@ -72,11 +78,11 @@ namespace Game.Cheats {
 			public OffsetReference(AdjustableNumber value, float amount) {
 				_value = value;
 				_amount = amount;
-				value._offset += amount;
+				value._offset.Add(amount);
 			}
 			public void Dispose() {
 				if (_disposed) return;
-				_value._offset -= _amount;
+				_value._offset.Remove(_amount);
 				_disposed = true;
 			}
 		}

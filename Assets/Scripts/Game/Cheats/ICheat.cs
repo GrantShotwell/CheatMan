@@ -1,9 +1,15 @@
 ﻿namespace Game.Cheats {
 	public interface ICheat {
+
+		public bool Enabled { get; }
 		
 		void EnableCheat();
 
 		void DisableCheat();
+
+		bool TryRegister(ICheatable cheatable);
+
+		bool TryUnregister(ICheatable cheatable);
 
 	}
 	public interface ICheat<T> : ICheat where T : ICheatable {

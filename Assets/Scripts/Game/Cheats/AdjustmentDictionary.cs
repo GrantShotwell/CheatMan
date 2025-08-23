@@ -7,9 +7,10 @@ namespace Game.Cheats {
 	public class AdjustmentDictionary<T> where T : ICheatable {
 
 		private readonly Dictionary<T, AdjustmentBox> _adjustments = new();
-		private bool _enabled = false;
 
 		private Func<T, IDisposable> Apply { get; set; }
+
+		public bool Enabled { get; set; } = false;
 
 		public AdjustmentDictionary(Func<T, IDisposable> apply) {
 			Apply = apply;
@@ -21,7 +22,7 @@ namespace Game.Cheats {
 			}
 			AdjustmentBox box = new();
 			_adjustments[item] = box;
-			if (_enabled) {
+			if (Enabled) {
 				box.Adjustment = Apply(item);
 			}
 		}
