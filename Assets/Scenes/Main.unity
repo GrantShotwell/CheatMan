@@ -781,6 +781,7 @@ GameObject:
   - component: {fileID: 1160409344}
   - component: {fileID: 1160409343}
   - component: {fileID: 1160409347}
+  - component: {fileID: 1160409348}
   m_Layer: 5
   m_Name: Cheat Display UI
   m_TagString: Untagged
@@ -887,6 +888,21 @@ MonoBehaviour:
   _cheatItemPrefab: {fileID: 8965877111916069442, guid: 757842044357beb499c4b950725417c4, type: 3}
   _cheatItemGroup: {fileID: 1706849076}
   _healthbarForegroundImage: {fileID: 1455461715}
+--- !u!114 &1160409348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160409342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ae4fd00ddb2734da559e8f77b69c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1455461715}
+  healthAmount: 50
+  currentMaxHP: 0
 --- !u!1 &1169657674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,6 +1336,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2381349718197084971, guid: 4253c4c46379a0442af4f33e8b99a0c6, type: 3}
+      propertyPath: healthManager
+      value: 
+      objectReference: {fileID: 1160409348}
     - target: {fileID: 5699634278568926054, guid: 4253c4c46379a0442af4f33e8b99a0c6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0078

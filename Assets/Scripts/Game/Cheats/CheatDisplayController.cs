@@ -11,10 +11,6 @@ namespace Game.Cheats {
 		[SerializeField] private RectTransform _cheatItemGroup;
 		[SerializeField] private Image _healthbarForegroundImage;
 
-		private void Update() {
-			_healthbarForegroundImage.fillAmount = 0.5f; // TODO
-		}
-
 		public async UniTask RunActivation(CheatActivation activation, CancellationToken cancellationToken = default) {
 			GameObject instance = Instantiate(_cheatItemPrefab, _cheatItemGroup);
 			try {
