@@ -39,7 +39,7 @@ namespace Game.Levels.Enemies {
 			const float FrameDuration = 0.2f;
 			while (!cancellationToken.IsCancellationRequested) {
 				for (int i = 0; i < _animationFrames.Length; i++) {
-					await UniTask.WaitForSeconds(FrameDuration);
+					await UniTask.WaitForSeconds(FrameDuration, cancellationToken: cancellationToken);
 					_spriteRenderer.sprite = _animationFrames[i];
 				}
 			}

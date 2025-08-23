@@ -30,6 +30,8 @@ public class RootInstaller : MonoInstaller {
 		Container.BindInterfacesAndSelfTo<UnlimitedJumpCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<WallJumpCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<ZeroGravityCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<FancyBowCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<FancyHatCheat>().AsSingle();
 	}
 
 }

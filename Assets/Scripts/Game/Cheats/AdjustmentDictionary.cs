@@ -10,7 +10,7 @@ namespace Game.Cheats {
 
 		private Func<T, IDisposable> Apply { get; set; }
 
-		public bool Enabled { get; set; } = false;
+		public bool Enabled { get; private set; } = false;
 
 		public AdjustmentDictionary(Func<T, IDisposable> apply) {
 			Apply = apply;
@@ -34,6 +34,7 @@ namespace Game.Cheats {
 		}
 
 		public void Enable() {
+			Enabled = true;
 			foreach ((var cheatable, var box) in _adjustments) {
 				box.Adjustment?.Dispose();
 				box.Adjustment = Apply(cheatable);
@@ -41,6 +42,7 @@ namespace Game.Cheats {
 		}
 
 		public void Disable() {
+			Enabled = false;
 			foreach (var box in _adjustments.Values) {
 				box.Adjustment?.Dispose();
 				box.Adjustment = null;

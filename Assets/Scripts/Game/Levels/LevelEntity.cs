@@ -1,18 +1,13 @@
-﻿using Assets.Scripts.Game.Levels.Enemies;
+﻿using Assets.Scripts.Game.Cheats;
 using Cysharp.Threading.Tasks;
 using Game.Cheats;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Levels {
-	public class LevelEntity : MonoBehaviour, ICheatable {
+	public abstract class LevelEntity : MonoBehaviour, ICheatable, IBowWearing, IHatWearing {
 		[Inject] protected readonly DiContainer _container;
 		[Inject] protected readonly CheatManager _cheatManager;
 		[Inject] protected readonly PlayerController _player;
@@ -22,7 +17,10 @@ namespace Game.Levels {
 		private bool _seenByPlayerDirty = true;
 		private bool _seenByPlayer = false;
 
-		protected delegate UniTask StateFunction(CancellationToken cancellationToken);
+		[field: SerializeField] public AdjustableBoolean wearingBow { get; private set; } = new(false);
+		[field: SerializeField] public GameObject BowGameObject { get; private set; }
+		[field: SerializeField] public AdjustableBoolean wearingHat { get; private set; } = new(false);
+		[field: SerializeField] public GameObject HatGameObject { get; private set; }
 
 		public bool SeenByPlayer {
 			get {
@@ -31,6 +29,8 @@ namespace Game.Levels {
 				return _seenByPlayer = GetSeenByPlayer();
 			}
 		}
+
+		protected delegate UniTask StateFunction(CancellationToken cancellationToken);
 
 		protected virtual void Awake() {
 		}
@@ -41,6 +41,11 @@ namespace Game.Levels {
 
 		protected virtual void OnDestroy() {
 			_cheatManager.Unregister(this);
+		}
+
+		protected virtual void Update() {
+			if (BowGameObject != null) BowGameObject.SetActive(wearingBow);
+			if (HatGameObject != null) HatGameObject.SetActive(wearingHat);
 		}
 
 		protected virtual void FixedUpdate() {

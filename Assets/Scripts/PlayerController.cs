@@ -17,7 +17,7 @@ using Cysharp.Threading.Tasks.Triggers;
 [SelectionBase]
 [RequireComponent(typeof(CharacterController2D))]
 
-public class PlayerController : MonoBehaviour, ICheatable
+public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWearing
 {
     [Inject] private readonly CheatManager cheatManager;
 
@@ -71,6 +71,12 @@ public class PlayerController : MonoBehaviour, ICheatable
     [SerializeField] public AdjustableBoolean enableBow = new(false); // TODO
     [SerializeField] public AdjustableBoolean enableHat = new(false); // TODO
 
+    [SerializeField] private GameObject bowGameObject;
+    [SerializeField] private GameObject hatGameObject;
+
+	AdjustableBoolean IBowWearing.wearingBow => enableBow;
+	AdjustableBoolean IHatWearing.wearingHat => enableHat;
+
     //Components
     private CharacterController2D characterController;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -119,6 +125,8 @@ public class PlayerController : MonoBehaviour, ICheatable
 
     private void Update()
     {
+        //if (hatGameObject) hatGameObject.SetActive(enableHat);
+        //if (bowGameObject) bowGameObject.SetActive(enableBow);
         coyoteTimeCurrent = Mathf.Max(0.0f, coyoteTimeCurrent - Time.deltaTime);
         wallJumpCoyoteTimeCurrent = Mathf.Max(0.0f, wallJumpCoyoteTimeCurrent - Time.deltaTime);
         jumpBufferTimeCurrent = Mathf.Max(0.0f, jumpBufferTimeCurrent - Time.deltaTime);
