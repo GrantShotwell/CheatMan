@@ -9,6 +9,7 @@ using Game.Cheats;
 using Zenject;
 using Assets.Scripts.Game.Cheats;
 using NUnit.Framework.Constraints;
+using UnityEditor.ShortcutManagement;
 
 [SelectionBase]
 [RequireComponent(typeof(CharacterController2D))]
@@ -107,6 +108,7 @@ public class PlayerController : MonoBehaviour, ICheatable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        cheatManager.Register(this);
         characterController = GetComponent<CharacterController2D>();
         //ghostTrail = GetComponent<GhostTrail>();
         dashSpeed.Value = moveSpeed * dashSpeedMultiplier;
@@ -165,7 +167,12 @@ public class PlayerController : MonoBehaviour, ICheatable
         }
     }
 
-    private void ProcessMoveInput()
+	private void OnDestroy()
+    {
+        cheatManager.Unregister(this);
+	}
+
+	private void ProcessMoveInput()
     {
         var rate = moveInput.x != 0f ? acceleration : deceleration;
         var inputX = moveInput.x != 0.0f ? Mathf.Sign(moveInput.x) : 0f;
@@ -220,8 +227,13 @@ public class PlayerController : MonoBehaviour, ICheatable
 
     public void OnJumpPressed(InputAction.CallbackContext context)
     {
-        bool groundedJumpCondition = (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f);
-        bool airborneJumpCondition = (!holdingJump && currentJumpCount < jumpCountMax);
+        if (cheatManager.IsCheating)
+        {
+            holdingJump = false;
+            return;
+        }
+        bool groundedJumpCondition = isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f;
+        bool airborneJumpCondition = !holdingJump && currentJumpCount < jumpCountMax.Floor();
 		if (context.performed && (groundedJumpCondition || airborneJumpCondition))
         {
 			if (sfxManager) sfxManager.PlaySFX("Jump", 0);
@@ -256,7 +268,11 @@ public class PlayerController : MonoBehaviour, ICheatable
 
     public void OnAttackPressed(InputAction.CallbackContext context)
     {
-        if (context.performed)//&& (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f))
+        if (cheatManager.IsCheating)
+        {
+            return;
+        }
+		if (context.performed)//&& (isOnGround || coyoteTimeCurrent > 0.0f || isWallSliding || wallJumpCoyoteTimeCurrent > 0.0f))
         {
             StartCoroutine("PlayerAttack");
         }
@@ -278,8 +294,12 @@ public class PlayerController : MonoBehaviour, ICheatable
 
     public void PlayerDash(InputAction.CallbackContext context)
     {
-        //sfxManager.PlaySFX("Jump", 0);
-        if (context.performed && !dash && (isOnGround || isOnWall))
+        if (cheatManager.IsCheating)
+        {
+            return;
+        }
+		//sfxManager.PlaySFX("Jump", 0);
+		if (context.performed && !dash && (isOnGround || isOnWall))
         {
             StartCoroutine("PlayerSetDash");
         }
@@ -389,7 +409,12 @@ public class PlayerController : MonoBehaviour, ICheatable
     }
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        if (cheatManager.IsCheating)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+		moveInput = context.ReadValue<Vector2>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

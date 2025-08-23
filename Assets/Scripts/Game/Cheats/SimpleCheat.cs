@@ -11,6 +11,8 @@ namespace Assets.Scripts.Game.Cheats {
 
 		public bool Enabled => this._adjustments.Enabled;
 
+		public abstract string DisplayName { get; }
+
 		public SimpleCheat() {
 			this._adjustments = new(Apply);
 		}

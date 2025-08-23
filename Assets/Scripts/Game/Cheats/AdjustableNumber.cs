@@ -18,19 +18,23 @@ namespace Game.Cheats {
 				if (_override != null) {
 					return _override.Value;
 				}
-				return (_value * ScaleTotal) + OffsetTotal;
+				return ApplyAdjustments(_value);
 			}
 			set {
 				_value = value;
 			}
 		}
 
-		private float ScaleTotal => _scale.Aggregate(1f, (a, b) => a * b);
+		public float ScaleTotal => _scale.Aggregate(1f, (a, b) => a * b);
 
-		private float OffsetTotal => _offset.Aggregate(1f, (a, b) => a + b);
+		public float OffsetTotal => _offset.Aggregate(1f, (a, b) => a + b);
 
 		public AdjustableNumber(float value) {
 			_value = value;
+		}
+
+		public float ApplyAdjustments(float value) {
+			return value * ScaleTotal + OffsetTotal;
 		}
 
 		public IDisposable Scale(float value) {

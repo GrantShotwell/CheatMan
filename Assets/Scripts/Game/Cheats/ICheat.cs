@@ -1,7 +1,9 @@
 ﻿namespace Game.Cheats {
 	public interface ICheat {
 
-		public bool Enabled { get; }
+		string DisplayName { get; }
+
+		bool Enabled { get; }
 		
 		void EnableCheat();
 

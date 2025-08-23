@@ -1,18 +1,15 @@
 ﻿using Assets.Scripts.Game.Cheats;
 using Cysharp.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
 
 namespace Game.Cheats {
-	public class CheatDisplayController : MonoBehaviour{
-
+	public class CheatDisplayController : MonoBehaviour {
 		[SerializeField] private GameObject _cheatItemPrefab;
 		[SerializeField] private RectTransform _cheatItemGroup;
+		[SerializeField] private Image _healthbarForegroundImage;
 
 		public async UniTask RunActivation(CheatActivation activation, CancellationToken cancellationToken = default) {
 			GameObject instance = Instantiate(_cheatItemPrefab, _cheatItemGroup);
