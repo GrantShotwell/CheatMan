@@ -30,6 +30,11 @@ namespace Game.Cheats {
 		[field: Inject] public WallJumpCheat WallJump { get; private set; }
 		[field: Inject] public ZeroGravityCheat ZeroGravity { get; private set; }
 
+		/// <summary>
+		/// Is true when the cheat UI is open.
+		/// </summary>
+		public bool IsCheating => _popup.IsOpen;
+
 		public CheatManager(CheatPopupController popup, CheatDisplayController display) {
 			Subscribe(this._popup = popup);
 			this._display = display;
@@ -56,11 +61,11 @@ namespace Game.Cheats {
 		private bool TryGetCheat(string code, out CheatActivation activation) {
 			code = code.ToLower().Replace(" ", string.Empty).Trim();
 			activation = code switch {
-				"dash" => new(Dash, 1f),
-				"superspeed" => new(SuperSpeed, 1f),
-				"unlimitedjump" => new(UnlimitedJump, 1f),
-				"walljump" => new(WallJump, 1f),
-				"zerogravity" => new(ZeroGravity, 1f),
+				"dash" => new(Dash, 10f),
+				"superspeed" => new(SuperSpeed, 10f),
+				"unlimitedjump" => new(UnlimitedJump, 10f),
+				"walljump" => new(WallJump, 10f),
+				"zerogravity" => new(ZeroGravity, 10f),
 				_ => default,
 			};
 			Debug.Log($"Cheat code \"{code}\": {activation.Cheat?.ToString() ?? "null"}");

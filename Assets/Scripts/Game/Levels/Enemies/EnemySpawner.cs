@@ -1,13 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Cheats;
 using Game.Levels.Enemies;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -70,9 +65,7 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 		}
 
 		private bool TestCanDespawn(Enemy enemy) {
-			return true
-				// TODO: Outside player view.
-				&& true
+			return !enemy.SeenByPlayer
 				// Outside despawn distance.
 				&& (Vector2.Distance(enemy.transform.position, transform.position) > despawnDistance);
 		}

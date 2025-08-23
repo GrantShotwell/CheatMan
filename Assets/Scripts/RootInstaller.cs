@@ -5,6 +5,7 @@ using Zenject;
 
 public class RootInstaller : MonoInstaller {
 
+	[SerializeField] private PlayerController _playerController;
 	[SerializeField] private CheatPopupController _cheatPopupController;
 	[SerializeField] private CheatDisplayController _cheatDisplayController;
 
@@ -13,6 +14,9 @@ public class RootInstaller : MonoInstaller {
 	}
 
 	private void InstallCheats() {
+		Container.BindInterfacesAndSelfTo<PlayerController>()
+			.FromInstance(_playerController)
+			.AsSingle();
 		Container.BindInterfacesAndSelfTo<CheatManager>()
 			.AsSingle();
 		Container.BindInterfacesAndSelfTo<CheatPopupController>()
