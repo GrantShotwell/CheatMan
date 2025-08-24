@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -21,6 +22,8 @@ namespace Game.Cheats {
 				yield return UnlimitedJump;
 				yield return WallJump;
 				yield return ZeroGravity;
+				yield return FancyBow;
+				yield return FancyHat;
 			}
 		}
 
@@ -29,6 +32,8 @@ namespace Game.Cheats {
 		[field: Inject] public UnlimitedJumpCheat UnlimitedJump { get; private set; }
 		[field: Inject] public WallJumpCheat WallJump { get; private set; }
 		[field: Inject] public ZeroGravityCheat ZeroGravity { get; private set; }
+		[field: Inject] public FancyBowCheat FancyBow { get; private set; }
+		[field: Inject] public FancyHatCheat FancyHat { get; private set; }
 
 		/// <summary>
 		/// Is true when the cheat UI is open.
@@ -66,6 +71,8 @@ namespace Game.Cheats {
 				"unlimitedjump" => new(UnlimitedJump, 10f),
 				"walljump" => new(WallJump, 10f),
 				"zerogravity" => new(ZeroGravity, 10f),
+				"bow" => new(FancyBow, 30f),
+				"hat" => new(FancyHat, 30f),
 				_ => default,
 			};
 			Debug.Log($"Cheat code \"{code}\": {activation.Cheat?.ToString() ?? "null"}");

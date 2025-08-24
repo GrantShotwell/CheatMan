@@ -23,7 +23,7 @@ namespace Assets.Scripts.Game.Cheats {
 			get => _timeLeft;
 			set {
 				_timeLeft = value;
-				_image.fillAmount = _timeLeft / _totalTime;
+				if (_image) _image.fillAmount = _timeLeft / _totalTime;
 			}
 		}
 

@@ -9,6 +9,8 @@ namespace Game.Levels.Enemies {
 		private double _startingTime;
 
 		public float flyVariance = 1f;
+		[SerializeField] private SpriteRenderer _spriteRenderer;
+		[SerializeField] private Sprite[] _animationFrames;
 
 		protected override void Awake() {
 			base.Awake();
@@ -19,6 +21,7 @@ namespace Game.Levels.Enemies {
 		protected override void Start() {
 			base.Start();
 			SetState(IdleState);
+			FlyAnimation(destroyCancellationToken).Forget();
 		}
 
 		private async UniTask IdleState(CancellationToken cancellationToken) {
@@ -28,9 +31,18 @@ namespace Game.Levels.Enemies {
 				pos.y = height + _startingPosition.y;
 				pos.x -= movementSpeed * Time.deltaTime;
 				transform.localPosition = pos;
-				await UniTask.NextFrame(PlayerLoopTiming.Update);
+				await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken: cancellationToken);
 			}
 		}
 
+		private async UniTask FlyAnimation(CancellationToken cancellationToken) {
+			const float FrameDuration = 0.2f;
+			while (!cancellationToken.IsCancellationRequested) {
+				for (int i = 0; i < _animationFrames.Length; i++) {
+					await UniTask.WaitForSeconds(FrameDuration, cancellationToken: cancellationToken);
+					_spriteRenderer.sprite = _animationFrames[i];
+				}
+			}
+		}
 	}
 }

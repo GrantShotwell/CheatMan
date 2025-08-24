@@ -13,6 +13,7 @@ namespace Game.Levels.Enemies {
 			while (!cancellationToken.IsCancellationRequested) {
 				if (SeenByPlayer) {
 					SetState(AttackState);
+					continue;
 				}
 				await UniTask.NextFrame(cancellationToken);
 			}
@@ -20,7 +21,7 @@ namespace Game.Levels.Enemies {
 
 		private async UniTask AttackState(CancellationToken cancellationToken) {
 			while (!cancellationToken.IsCancellationRequested) {
-				await UniTask.WaitForSeconds(weaponSpeed);
+				await UniTask.WaitForSeconds(weaponSpeed, cancellationToken: cancellationToken);
 				if (!SeenByPlayer) {
 					SetState(IdleState);
 					continue;
