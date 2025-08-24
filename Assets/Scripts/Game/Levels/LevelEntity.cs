@@ -30,6 +30,12 @@ namespace Game.Levels {
 			}
 		}
 
+		public virtual Vector2 DirectionToPlayer {
+			get {
+				return _player.transform.position - transform.position;
+			}
+		}
+
 		protected delegate UniTask StateFunction(CancellationToken cancellationToken);
 
 		protected virtual void Awake() {

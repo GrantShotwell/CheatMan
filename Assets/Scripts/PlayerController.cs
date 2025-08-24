@@ -223,8 +223,8 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
         anim.SetBool("IsGrounded", isOnGround);
         anim.SetBool("IsMoving", velocity.x != 0 && isOnGround);
         anim.SetBool("Jump", velocity.y > 0 && !isOnGround);
-        anim.SetBool("IsFalling", velocity.y <= 0 && !isOnGround);// && !isWallSliding);
-        anim.SetBool("IsRising", velocity.y >= 0 && !isOnGround);// && !isWallSliding);
+        //anim.SetBool("IsFalling", velocity.y <= 0 && !isOnGround);// && !isWallSliding);
+        //anim.SetBool("IsRising", velocity.y >= 0 && !isOnGround);// && !isWallSliding);
         anim.SetBool("IsWallSliding", isWallSliding);
         anim.SetBool("IsDash", dash);
 
@@ -480,48 +480,42 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
 		}
 	}
 
-	private void CheckForDamageDealers(GameObject target)
-    {
-		if (invincible)
-        {
-            return;
+	private void CheckForDamageDealers(GameObject target) {
+		if (invincible) {
+			return;
 		}
-        bool damaged = false;
-        float damage = 0f;
-		if (target.transform.CompareTag("Enemy"))
-        {
+		bool damaged = false;
+		float damage = 0f;
+		if (target.transform.CompareTag("Enemy")) {
 			var enemy = target.GetComponent<Enemy>();
-			if (enemy)
-            {
+			if (enemy) {
 				damage += enemy.GetContactDamage(this, healthManager.healthAmount, out bool hit);
-                damaged = damaged || hit;
+				damaged = damaged || hit;
 			}
 		}
-        if (target.transform.CompareTag("Obstacle"))
-        {
+		if (target.transform.CompareTag("Obstacle")) {
 			var obstacle = target.GetComponent<Obstacle>();
-			if (obstacle)
-            {
+			if (obstacle) {
 				damage += obstacle.GetContactDamage(this, healthManager.healthAmount, out bool hit);
 				damaged = damaged || hit;
 			}
 		}
 		if (target.transform.CompareTag("EnemyProjectile")) {
-            damage += 25;
-            damaged = true;
+			damage += 25;
+			damaged = true;
 		}
-		if (!damaged)
-        {
-            return;
+		if (!damaged) {
+			return;
 		}
+		DealDamage(damage);
+	}
+
+	public void DealDamage(float damage) {
 		healthManager.TakeDamage(damage);
-		if (healthManager.healthAmount > 0)
-        {
+		if (healthManager.healthAmount > 0) {
 			StartCoroutine("DamagedCoroutine", 1);
 			StartCoroutine("iframeCoroutine");
-		}
-        else
-        {
+		} else {
 			if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
 			//uiController.ShowGameOverScreen();
 		}

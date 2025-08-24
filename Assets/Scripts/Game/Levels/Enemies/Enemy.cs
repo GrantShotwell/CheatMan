@@ -29,7 +29,7 @@ namespace Game.Levels.Enemies {
 		protected EnemyProjectile InstantiateProjectile(GameObject prefab) {
 			var instance = _container.InstantiatePrefab(prefab);
 			var projectile = instance.GetComponent<EnemyProjectile>();
-			projectile.damange.Value = weaponDamage;
+			projectile.damage = weaponDamage;
 			return projectile;
 		}
 
