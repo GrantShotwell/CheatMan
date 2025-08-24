@@ -1,3 +1,4 @@
+using Assets.Scripts.Game;
 using Assets.Scripts.Game.Cheats;
 using Game.Cheats;
 using UnityEngine;
@@ -25,6 +26,10 @@ public class RootInstaller : MonoInstaller {
 		Container.BindInterfacesAndSelfTo<CheatDisplayController>()
 			.FromInstance(_cheatDisplayController)
 			.AsSingle();
+		Container.BindInterfacesAndSelfTo<CameraController>()
+			.FromComponentInHierarchy()
+			.AsSingle()
+			.NonLazy();
 		Container.BindInterfacesAndSelfTo<DashCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<SuperSpeedCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<UnlimitedJumpCheat>().AsSingle();

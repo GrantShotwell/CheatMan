@@ -13,6 +13,7 @@ using UnityEditor.ShortcutManagement;
 using Game.Levels.Enemies;
 using Game.Levels.Obstacles;
 using Cysharp.Threading.Tasks.Triggers;
+using Assets.Scripts.Game;
 
 [SelectionBase]
 [RequireComponent(typeof(CharacterController2D))]
@@ -20,6 +21,7 @@ using Cysharp.Threading.Tasks.Triggers;
 public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWearing
 {
     [Inject] private readonly CheatManager cheatManager;
+    [Inject] private readonly CameraController cameraController;
 
     [SerializeField] SFXManager sfxManager;
     [SerializeField] UIController uiController;
@@ -441,6 +443,13 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
     private void OnTriggerEnter2D(Collider2D collision)
     {
 		CheckForDamageDealers(collision.gameObject);
+        
+        var cameraLimiter = collision.gameObject.GetComponent<CameraControllerLimiter>();
+        if (cameraLimiter != null)
+        {
+            cameraController.EnterLimiter(cameraLimiter);
+        }
+
 		/*if (collision.CompareTag("Collectable"))
         {
             collectedCoins++;
@@ -465,7 +474,14 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
         }*/
 	}
 
-    private void CheckForDamageDealers(GameObject target)
+	private void OnTriggerExit2D(Collider2D collision) {
+		var cameraLimiter = collision.gameObject.GetComponent<CameraControllerLimiter>();
+		if (cameraLimiter != null) {
+			cameraController.ExitLimiter(cameraLimiter);
+		}
+	}
+
+	private void CheckForDamageDealers(GameObject target)
     {
 		Debug.Log(target.name, target);
 		if (invincible)
