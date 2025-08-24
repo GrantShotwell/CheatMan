@@ -46,18 +46,18 @@ namespace Game.Levels.Enemies {
 
 		private async UniTask AttackAsync(float direction, CancellationToken cancellationToken) {
 			try {
-			for (int i = 0; i < _attackAnimation.Length; i++) {
-				_spriteRenderer.sprite = _attackAnimation[i];
+				for (int i = 0; i < _attackAnimation.Length; i++) {
+					_spriteRenderer.sprite = _attackAnimation[i];
 					_spriteRenderer.flipX = direction < 0;
-				if (i == _attackAnimation.Length - 1) {
-					SpawnProjectile(direction);
-					await UniTask.WaitForSeconds(2 * attackAnimationSeconds / _attackAnimation.Length, cancellationToken: cancellationToken);
-				} else {
-					await UniTask.WaitForSeconds(attackAnimationSeconds / _attackAnimation.Length, cancellationToken: cancellationToken);
+					if (i == _attackAnimation.Length - 1) {
+						SpawnProjectile(direction);
+						await UniTask.WaitForSeconds(2 * attackAnimationSeconds / _attackAnimation.Length, cancellationToken: cancellationToken);
+					} else {
+						await UniTask.WaitForSeconds(attackAnimationSeconds / _attackAnimation.Length, cancellationToken: cancellationToken);
+					}
 				}
-			}
 			} finally {
-			_spriteRenderer.sprite = _idleAnimation[0];
+				_spriteRenderer.sprite = _idleAnimation[0];
 				_spriteRenderer.flipX = false;
 			}
 		}
