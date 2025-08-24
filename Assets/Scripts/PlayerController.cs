@@ -23,9 +23,8 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
     [Inject] private readonly CheatManager cheatManager;
     [Inject] private readonly CameraController cameraController;
 
-    [SerializeField] SFXManager sfxManager;
-    [SerializeField] UIController uiController;
-    [SerializeField] HealthManager healthManager;
+    [Inject] SFXManager sfxManager;
+    [Inject] HealthManager healthManager;
     [SerializeField] Projectile[] projectilePrefab;
     [SerializeField] Transform launchOffsetLeft;
     [SerializeField] Transform launchOffsetRight;
@@ -436,7 +435,7 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
         if (collision.transform.CompareTag("DeathZone"))
         {
 			if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
-            uiController.ShowGameOverScreen();
+            //uiController.ShowGameOverScreen();
         }
 	}
 
@@ -483,7 +482,6 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
 
 	private void CheckForDamageDealers(GameObject target)
     {
-		Debug.Log(target.name, target);
 		if (invincible)
         {
             return;
@@ -525,7 +523,7 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
         else
         {
 			if (sfxManager) sfxManager.PlaySFX("GameOver", 0);
-			uiController.ShowGameOverScreen();
+			//uiController.ShowGameOverScreen();
 		}
 	}
 }

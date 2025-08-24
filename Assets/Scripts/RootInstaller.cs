@@ -9,12 +9,24 @@ public class RootInstaller : MonoInstaller {
 	[SerializeField] private PlayerController _playerController;
 	[SerializeField] private CheatPopupController _cheatPopupController;
 	[SerializeField] private CheatDisplayController _cheatDisplayController;
+	[SerializeField] private SFXManager _sfxManager;
+	[SerializeField] private DialogueManager _dialogueManager;
+	[SerializeField] private HealthManager _healthManager;
 
 	public override void InstallBindings() {
 		InstallCheats();
 	}
 
 	private void InstallCheats() {
+		Container.BindInterfacesAndSelfTo<SFXManager>()
+			.FromInstance(_sfxManager)
+			.AsSingle();
+		Container.BindInterfacesAndSelfTo<DialogueManager>()
+			.FromInstance(_dialogueManager)
+			.AsSingle();
+		Container.BindInterfacesAndSelfTo<HealthManager>()
+			.FromInstance(_healthManager)
+			.AsSingle();
 		Container.BindInterfacesAndSelfTo<PlayerController>()
 			.FromInstance(_playerController)
 			.AsSingle();
