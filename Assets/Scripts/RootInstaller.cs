@@ -54,6 +54,9 @@ public class RootInstaller : MonoInstaller {
 		Container.BindInterfacesAndSelfTo<ZeroGravityCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<FancyBowCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<FancyHatCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<AddHealthCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<SlowMotionCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<SmallCheat>().AsSingle();
 	}
 
 }
