@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: 2631346359413480145}
   - component: {fileID: 661943935002009094}
   m_Layer: 0
-  m_Name: Scientist Flask
+  m_Name: GuardmanShot
   m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &162764217508970979
 Transform:
   m_ObjectHideFlags: 0
@@ -69,7 +69,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.01
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -161,7 +161,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 54aa2901bc78097409ebc66fae31b2de, type: 3}
+  m_Sprite: {fileID: -7505806774172357249, guid: 033ad2f72683b41469f5a49a19bec052, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
