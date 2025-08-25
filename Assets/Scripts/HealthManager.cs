@@ -4,32 +4,19 @@ using UnityEngine.UI;
 public class HealthManager : MonoBehaviour
 {
     public Image healthBar;
-    //[SerializeField] float maxHealth = 100;
     public float healthAmount = 50f;
+    public float maximumHealth = 50f;
     public float currentMaxHP;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+	public void TakeDamage(float damage)
     {
-        currentMaxHP = healthAmount;
+        healthAmount = Mathf.Clamp(healthAmount - damage, 0, maximumHealth);
+        healthBar.fillAmount= healthAmount / maximumHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GiveHealing(float healing)
     {
-        
-    }
-
-    public void TakeDamage(float damage)
-    {
-        healthAmount -= damage;
-        healthBar.fillAmount= healthAmount / 100f;
-    }
-
-    public void heal(float healingAmount)
-    {
-        healthAmount += healingAmount;
-        healthAmount = Mathf.Clamp(healthAmount, 0, 100);
-
-        healthBar.fillAmount = healthAmount / 100f;
+        healthAmount = Mathf.Clamp(healthAmount + healing, 0, maximumHealth);
+        healthBar.fillAmount = healthAmount / maximumHealth;
     }
 }

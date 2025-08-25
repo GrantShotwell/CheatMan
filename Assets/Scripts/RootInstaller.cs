@@ -1,5 +1,6 @@
 using Assets.Scripts.Game;
 using Assets.Scripts.Game.Cheats;
+using Assets.Scripts.Game.Levels;
 using Game.Cheats;
 using UnityEngine;
 using Zenject;
@@ -42,6 +43,10 @@ public class RootInstaller : MonoInstaller {
 			.FromComponentInHierarchy()
 			.AsSingle()
 			.NonLazy();
+		Container.BindInterfacesAndSelfTo<ParticleSystemManager>()
+			.FromNewComponentOn(gameObject)
+			.AsSingle()
+			.NonLazy();
 		Container.BindInterfacesAndSelfTo<DashCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<SuperSpeedCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<UnlimitedJumpCheat>().AsSingle();
@@ -49,6 +54,9 @@ public class RootInstaller : MonoInstaller {
 		Container.BindInterfacesAndSelfTo<ZeroGravityCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<FancyBowCheat>().AsSingle();
 		Container.BindInterfacesAndSelfTo<FancyHatCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<AddHealthCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<SlowMotionCheat>().AsSingle();
+		Container.BindInterfacesAndSelfTo<SmallCheat>().AsSingle();
 	}
 
 }

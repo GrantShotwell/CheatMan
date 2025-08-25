@@ -9,7 +9,7 @@ namespace Game.Cheats {
 
 		[SerializeField] private float _value = 0f;
 		private readonly List<float> _scale = new(1);
-        private readonly List<float> _offset = new(1);
+		private readonly List<float> _offset = new(1);
 		private float? _override = null;
 		IDisposable _overrideObj = null;
 

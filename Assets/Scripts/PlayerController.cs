@@ -520,4 +520,8 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
 			//uiController.ShowGameOverScreen();
 		}
 	}
+
+    public void GiveHealing(float healing) {
+        healthManager.GiveHealing(healing);
+    }
 }

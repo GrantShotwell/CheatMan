@@ -24,6 +24,9 @@ namespace Game.Cheats {
 				yield return ZeroGravity;
 				yield return FancyBow;
 				yield return FancyHat;
+				yield return AddHealth;
+				yield return SlowMotion;
+				yield return Small;
 			}
 		}
 
@@ -34,6 +37,9 @@ namespace Game.Cheats {
 		[field: Inject] public ZeroGravityCheat ZeroGravity { get; private set; }
 		[field: Inject] public FancyBowCheat FancyBow { get; private set; }
 		[field: Inject] public FancyHatCheat FancyHat { get; private set; }
+		[field: Inject] public AddHealthCheat AddHealth { get; private set; }
+		[field: Inject] public SlowMotionCheat SlowMotion { get; private set; }
+		[field: Inject] public SmallCheat Small { get; private set; }
 
 		/// <summary>
 		/// Is true when the cheat UI is open.
@@ -73,6 +79,9 @@ namespace Game.Cheats {
 				"zerogravity" => new(ZeroGravity, 10f),
 				"bow" => new(FancyBow, 30f),
 				"hat" => new(FancyHat, 30f),
+				"slowmotion" => new(SlowMotion, SlowMotionCheat.ActualDuration),
+				"heal" => new(AddHealth, 30f),
+				"small" => new(Small, 15f),
 				_ => default,
 			};
 			Debug.Log($"Cheat code \"{code}\": {activation.Cheat?.ToString() ?? "null"}");
