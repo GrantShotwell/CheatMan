@@ -8,8 +8,8 @@ namespace Game.Cheats {
 	public class AdjustableNumber {
 
 		[SerializeField] private float _value = 0f;
-		private List<float> _scale = new(1);
-		private List<float> _offset = new(1);
+		private readonly List<float> _scale = new(1);
+		private readonly List<float> _offset = new(1);
 		private float? _override = null;
 		IDisposable _overrideObj = null;
 
