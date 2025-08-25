@@ -1,5 +1,6 @@
 using Assets.Scripts.Game;
 using Assets.Scripts.Game.Cheats;
+using Assets.Scripts.Game.Levels;
 using Game.Cheats;
 using UnityEngine;
 using Zenject;
@@ -40,6 +41,10 @@ public class RootInstaller : MonoInstaller {
 			.AsSingle();
 		Container.BindInterfacesAndSelfTo<CameraController>()
 			.FromComponentInHierarchy()
+			.AsSingle()
+			.NonLazy();
+		Container.BindInterfacesAndSelfTo<ParticleSystemManager>()
+			.FromNewComponentOn(gameObject)
 			.AsSingle()
 			.NonLazy();
 		Container.BindInterfacesAndSelfTo<DashCheat>().AsSingle();

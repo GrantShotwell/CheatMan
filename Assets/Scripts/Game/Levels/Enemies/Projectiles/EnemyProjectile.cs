@@ -28,7 +28,7 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 			LifetimeTimer(lifetimeSeconds, destroyCancellationToken).Forget();
 		}
 
-		private void OnCollisionEnter2D(Collision2D collision) {
+		protected virtual void OnCollisionEnter2D(Collision2D collision) {
 			OnHitSomething();
 			var player = collision.gameObject.GetComponent<PlayerController>();
 			if (player) {
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 			}
 		}
 
-		public void OnHitSomething() {
+		public virtual void OnHitSomething() {
 			SetState(LandedState);
 		}
 
