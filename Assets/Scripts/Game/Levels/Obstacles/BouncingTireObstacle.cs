@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Game.Levels.Obstacles {
 	public sealed class BouncingTireObstacle : Obstacle {
 		private Rigidbody2D _rb;
-		[SerializeField] public AdjustableNumber bounceHeight { get; private set; } = new(10f);
+		[SerializeField] public Vector2 initialVelocity = Vector2.zero;
 
 		protected override void Awake() {
 			_rb = GetComponent<Rigidbody2D>();
@@ -15,12 +15,11 @@ namespace Game.Levels.Obstacles {
 
 		protected override void Start() {
 			base.Start();
+			SetState(BounceState);
+			_rb.linearVelocity = initialVelocity;
 		}
 
 		private async UniTask BounceState(CancellationToken cancellationToken) {
-			while (!cancellationToken.IsCancellationRequested) {
-				
-			}
 		}
 	}
 }
