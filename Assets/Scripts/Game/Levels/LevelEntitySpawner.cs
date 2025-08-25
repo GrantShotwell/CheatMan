@@ -1,40 +1,54 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Cheats;
+using Game.Levels;
 using Game.Levels.Enemies;
+using ModestTree;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using Utilities;
 using Zenject;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Assets.Scripts.Game.Levels.Enemies {
-	public sealed class EnemySpawner : MonoBehaviour {
+	public sealed class LevelEntitySpawner : MonoBehaviour {
 		[Inject] private readonly DiContainer _container;
+		private LevelEntity _prefabEntity;
 
 		public GameObject prefab;
 		public AdjustableNumber spawnCount = new(1);
 		public AdjustableNumber respawnInterval = new(1);
 		public float despawnDistance;
 
-		private readonly ICollection<Enemy> _enemies = new List<Enemy>();
+		private readonly List<LevelEntity> _enemies = new();
+
+		private void Awake() {
+			_prefabEntity = prefab.GetComponent<LevelEntity>();
+		}
 
 		private void Start() {
 			RespawnLoop(destroyCancellationToken).Forget();
 		}
 
 		private void Update() {
-			var destroyed = new List<Enemy>(_enemies.Count);
-			foreach (var enemy in _enemies) {
-				if (enemy == null) {
-					destroyed.Add(enemy);
+			Span<bool> destroyed = stackalloc bool[_enemies.Count];
+			for (int i=0;i<_enemies.Count;i++) {
+				var entity = _enemies[i];
+				if (entity == null) {
+					destroyed[i] = true;
 					continue;
 				}
-				if (TestCanDespawn(enemy)) {
-					destroyed.Add(enemy);
-					Destroy(enemy.gameObject);
+				if (TestCanDespawn(entity)) {
+					destroyed[i] = true;
+					Destroy(entity.gameObject);
 				}
 			}
-			foreach (var enemy in destroyed) {
-				_enemies.Remove(enemy);
+			int removedCount = 0;
+			for (int i=0;i<destroyed.Length;i++) {
+				if (!destroyed[i]) continue;
+				_enemies.RemoveAt(i - removedCount);
+				removedCount++;
 			}
 		}
 
@@ -48,10 +62,10 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 			}
 		}
 
-		private Enemy Spawn() {
+		private LevelEntity Spawn() {
 			GameObject instance = _container.InstantiatePrefab(prefab);
 			instance.transform.position = transform.position;
-			Enemy component = instance.GetComponent<Enemy>();
+			LevelEntity component = instance.GetComponent<LevelEntity>();
 			if (component == null) {
 				Debug.LogError("Prefab missing enemy component.");
 				return null;
@@ -61,10 +75,13 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 		}
 
 		private bool TestCanSpawn() {
-			return _enemies.Count < spawnCount;
+			Rect entityRect = _prefabEntity.VisibleRect;
+			entityRect.position += (Vector2)transform.position - (Vector2)_prefabEntity.transform.position;
+			return _enemies.Count < spawnCount
+				&& !Camera.main.GetOrthographicViewport().Overlaps(entityRect);
 		}
 
-		private bool TestCanDespawn(Enemy enemy) {
+		private bool TestCanDespawn(LevelEntity enemy) {
 			return !enemy.SeenByPlayer
 				// Outside despawn distance.
 				&& (Vector2.Distance(enemy.transform.position, transform.position) > despawnDistance);

@@ -70,7 +70,6 @@ namespace Game.Levels {
 		protected virtual void Update() {
 			if (BowGameObject != null) BowGameObject.SetActive(wearingBow);
 			if (HatGameObject != null) HatGameObject.SetActive(wearingHat);
-			gameObject.name = $"VISIBLE = {SeenByPlayer}";
 		}
 
 		protected virtual void FixedUpdate() {
