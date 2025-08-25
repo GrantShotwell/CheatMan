@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55d9587473347c7428dfdc6812a44ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visibleBoundsPadding: 1
   <wearingBow>k__BackingField:
     _value: 0
   <BowGameObject>k__BackingField: {fileID: 0}
@@ -80,7 +81,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &2631346359413480145
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -1,7 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Assets.Scripts.Game.Levels.Enemies;
+using Cysharp.Threading.Tasks;
 using Game.Levels.Enemies.Projectiles;
 using System.Threading;
 using UnityEngine;
+using Zenject;
 
 namespace Game.Levels.Enemies {
 	public sealed class Guardman : Enemy {
@@ -17,9 +19,12 @@ namespace Game.Levels.Enemies {
         [SerializeField] private GameObject _shotPrefab;
 		[SerializeField] private Transform _shootRightPosition;
         [SerializeField] private float attackWalkSpeed = 20;
+        [SerializeField] GameObject backup;
+        [SerializeField] Transform backupSpawn;
         private SpriteRenderer _spriteRenderer;
+        [Inject] DiContainer _container;
 
-		protected override void Awake() {
+        protected override void Awake() {
 			base.Awake();
 			_spriteRenderer = GetComponent<SpriteRenderer>();
 		}
@@ -41,33 +46,38 @@ namespace Game.Levels.Enemies {
 
 		private async UniTask AttackState(CancellationToken cancellationToken) {
 			while (!cancellationToken.IsCancellationRequested) {
-				await UniTask.WaitForSeconds(weaponSpeed, cancellationToken: cancellationToken);
+				//await UniTask.WaitForSeconds(weaponSpeed, cancellationToken: cancellationToken);
 				if (!SeenByPlayer) {
 					SetState(IdleState);
 					continue;
 				}
-				var action = Random.Range(0, 3);
+				var action = Random.Range(0, 20);
 				switch (action)
 				{
-                    case 0:
+                    case < 8:
                         await ShootAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
 						break;
-					case 1:
-                        //swipe attack
-                        await UniTask.WhenAny(
-                            WalkToPlayerAsync(attackWalkSpeed, Mathf.Abs(_player.transform.position.x - transform.position.x)-2, cancellationToken: cancellationToken),
-                            RunAnimationForeverAsync(_walkAnimation, 0.1f, cancellationToken: cancellationToken));
-                        await SwipeAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
-                        break;
-					case 2:
+					case < 15:
+                        {
+                            //swipe attack
+                            using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                            await UniTask.WhenAny(
+                                WalkToPlayerAsync(attackWalkSpeed, 3, cancellationToken: cts.Token),
+                                RunAnimationForeverAsync(_walkAnimation, 0.2f, cancellationToken: cts.Token));
+                            cts.Cancel();
+                            await SwipeAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
+                            break;
+                        }
+					case <18:
 						await BackupAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
                         //backup
                         break;
                     default:
-						//await UniTask.WaitForSeconds(2);
+						//await UniTask.WaitForSeconds(0.2f);
 						break;
                 }
-			}
+                await UniTask.WaitForSeconds(1);
+            }
 		}
 
 		private async UniTask ShootAsync(float direction, CancellationToken cancellationToken) {
@@ -132,6 +142,7 @@ namespace Game.Levels.Enemies {
                         await UniTask.WaitForSeconds(backupAnimationSeconds / _backupAnimation.Length, cancellationToken: cancellationToken);
                     }
                 }
+                InstantiateEnemy(backup,backupSpawn);
             }
             finally
             {
@@ -149,6 +160,7 @@ namespace Game.Levels.Enemies {
 			Vector2 velocity = new(shootRightVelocity.x * direction, shootRightVelocity.y);
 			projectile.startVelocity = velocity;
 			projectile.damage = weaponDamage;
+            projectile.GetComponent<SpriteRenderer>().flipX = Mathf.Sign(shootRightVelocity.x) > 0;
 			instance.SetActive(true);
 		}
 
@@ -158,6 +170,7 @@ namespace Game.Levels.Enemies {
             {
                 await UniTask.NextFrame(PlayerLoopTiming.FixedUpdate, cancellationToken: cancellationToken);
                 Vector2 direction = Vector2.right * Mathf.Sign(DirectionToPlayer.x);
+                _spriteRenderer.flipX = Mathf.Sign(direction.x) < 0;
                 transform.position += (Vector3)(direction * speed * Time.fixedDeltaTime);
             }
         }
@@ -166,12 +179,20 @@ namespace Game.Levels.Enemies {
         {
             while (true)
             {
-                for (int i = 0; i < _attackAnimation.Length; i++)
+                for (int i = 0; i < animation.Length; i++)
                 {
                     _spriteRenderer.sprite = animation[i];
                     await UniTask.WaitForSeconds(frameSeconds, cancellationToken: cancellationToken);
                 }
             }
+        }
+
+        private Enemy InstantiateEnemy(GameObject prefab, Transform spawnPoint)
+        {
+            var instance = _container.InstantiatePrefab(prefab);
+            var newenemy = instance.GetComponent<Enemy>();
+            newenemy.transform.position = spawnPoint.position;
+            return newenemy;
         }
 
     }
