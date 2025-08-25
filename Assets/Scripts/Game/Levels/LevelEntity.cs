@@ -18,7 +18,7 @@ namespace Game.Levels {
 
 		private bool _seenByPlayerDirty = true;
 		private bool _seenByPlayer = false;
-		private Collider2D[] _visibleRectColliders = Array.Empty<Collider2D>();
+		private Collider2D[] _visibleRectColliders = null;
 		private bool _visibleRectDirty = true;
 		private Rect _visibleRect;
 
@@ -120,8 +120,11 @@ namespace Game.Levels {
 			Vector2 min = Vector2.positiveInfinity;
 			Vector2 max = Vector2.negativeInfinity;
 			int included = 0;
+			if (_visibleRectColliders == null) {
+				// Can be edit mode, or a spawner accessing a prefab.
+				_visibleRectColliders = GetComponents<Collider2D>();
+			}
 			foreach (Collider2D collider in _visibleRectColliders) {
-				if (!collider) continue;
 				Bounds bounds = collider.bounds;
 				min = Vector2.Min(bounds.min, min);
 				max = Vector2.Max(bounds.max, max);
