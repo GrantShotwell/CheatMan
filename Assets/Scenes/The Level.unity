@@ -3228,12 +3228,12 @@ MonoBehaviour:
   <weaponSpeed>k__BackingField:
     _value: 5
   <movementSpeed>k__BackingField:
-    _value: 30
+    _value: 18
   <currentHealth>k__BackingField: 32
-  attackAnimationSeconds: 0
-  shootAnimationSeconds: 0
-  backupAnimationSeconds: 0
-  shootRightVelocity: {x: 0, y: 0}
+  attackAnimationSeconds: 1.5
+  shootAnimationSeconds: 2
+  backupAnimationSeconds: 2
+  shootRightVelocity: {x: 10, y: 0}
   _idleAnimation:
   - {fileID: 2419879449034797155, guid: 7085bb60a1a200c4384d96d4891e7f37, type: 3}
   _attackAnimation:
@@ -3258,6 +3258,8 @@ MonoBehaviour:
   _shotPrefab: {fileID: 5237721115311299508, guid: b5b86daac05ef2546abb478735ef1858, type: 3}
   _shootRightPosition: {fileID: 576648222}
   attackWalkSpeed: 20
+  backup: {fileID: 7352020804040002082, guid: a3d9628569645da45b3b51a2d84d6a8a, type: 3}
+  backupSpawn: {fileID: 1588855897}
 --- !u!61 &182008305
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3312,7 +3314,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182008302}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 6b20882b2e421b948a06513f92180e5d, type: 2}
   m_CullingMode: 0
@@ -9967,7 +9969,7 @@ Transform:
   m_GameObject: {fileID: 576648221}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.98, y: 1.13, z: 0}
+  m_LocalPosition: {x: 3.02, y: 1.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20656,6 +20658,7 @@ Transform:
   - {fileID: 1054716245}
   - {fileID: 851290474}
   - {fileID: 182008303}
+  - {fileID: 1588855897}
   m_Father: {fileID: 1997338249}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1213307662
@@ -25701,6 +25704,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1588855896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1588855897}
+  m_Layer: 0
+  m_Name: BackupSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1588855897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588855896}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1012.8, y: -338.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1206888650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1596984191
 GameObject:
   m_ObjectHideFlags: 0
