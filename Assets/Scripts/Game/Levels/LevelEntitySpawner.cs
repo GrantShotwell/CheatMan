@@ -1,19 +1,16 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Cheats;
 using Game.Levels;
-using Game.Levels.Enemies;
-using ModestTree;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using Utilities;
 using Zenject;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Assets.Scripts.Game.Levels.Enemies {
-	public sealed class LevelEntitySpawner : MonoBehaviour {
-		[Inject] private readonly DiContainer _container;
+	public class LevelEntitySpawner : MonoBehaviour {
+		[Inject] protected readonly DiContainer _container;
 		private LevelEntity _prefabEntity;
 
 		public GameObject prefab;
@@ -33,7 +30,7 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 
 		private void Update() {
 			Span<bool> destroyed = stackalloc bool[_enemies.Count];
-			for (int i=0;i<_enemies.Count;i++) {
+			for (int i = 0; i < _enemies.Count; i++) {
 				var entity = _enemies[i];
 				if (entity == null) {
 					destroyed[i] = true;
@@ -45,16 +42,21 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 				}
 			}
 			int removedCount = 0;
-			for (int i=0;i<destroyed.Length;i++) {
+			for (int i = 0; i < destroyed.Length; i++) {
 				if (!destroyed[i]) continue;
 				_enemies.RemoveAt(i - removedCount);
 				removedCount++;
 			}
 		}
 
+		private void OnDrawGizmosSelected() {
+			Gizmos.color = TestCanSpawn(out var rect) ? Color.turquoise : Color.purple;
+			Gizmos.DrawWireCube(rect.center, rect.size);
+		}
+
 		private async UniTask RespawnLoop(CancellationToken cancellationToken = default) {
 			while (!cancellationToken.IsCancellationRequested) {
-				if (TestCanSpawn()) {
+				if (TestCanSpawn(out _)) {
 					Spawn();
 					await UniTask.WaitForSeconds(respawnInterval, cancellationToken: cancellationToken);
 				}
@@ -62,7 +64,7 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 			}
 		}
 
-		private LevelEntity Spawn() {
+		protected virtual LevelEntity Spawn() {
 			GameObject instance = _container.InstantiatePrefab(prefab);
 			instance.transform.position = transform.position;
 			LevelEntity component = instance.GetComponent<LevelEntity>();
@@ -74,8 +76,8 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 			return component;
 		}
 
-		private bool TestCanSpawn() {
-			Rect entityRect = _prefabEntity.VisibleRect;
+		private bool TestCanSpawn(out Rect entityRect) {
+			entityRect = _prefabEntity.VisibleRect;
 			entityRect.position += (Vector2)transform.position - (Vector2)_prefabEntity.transform.position;
 			return _enemies.Count < spawnCount
 				&& !Camera.main.GetOrthographicViewport().Overlaps(entityRect);
