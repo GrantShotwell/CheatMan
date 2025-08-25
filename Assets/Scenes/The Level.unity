@@ -3230,7 +3230,7 @@ MonoBehaviour:
   <movementSpeed>k__BackingField:
     _value: 18
   <currentHealth>k__BackingField: 32
-  attackAnimationSeconds: 1.5
+  attackAnimationSeconds: 2
   shootAnimationSeconds: 2
   backupAnimationSeconds: 2
   shootRightVelocity: {x: 10, y: 0}

@@ -60,8 +60,8 @@ namespace Game.Levels.Enemies {
 					case < 15:
                         //swipe attack
                         await UniTask.WhenAny(
-                            WalkToPlayerAsync(attackWalkSpeed, 5, cancellationToken: cancellationToken),
-                            RunAnimationForeverAsync(_walkAnimation, 0.3f, cancellationToken: cancellationToken));
+                            WalkToPlayerAsync(attackWalkSpeed, 3, cancellationToken: cancellationToken),
+                            RunAnimationForeverAsync(_walkAnimation, 0.2f, cancellationToken: cancellationToken));
                         await SwipeAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
                         break;
 					case <18:
