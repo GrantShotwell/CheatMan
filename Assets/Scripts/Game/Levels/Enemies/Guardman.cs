@@ -58,12 +58,16 @@ namespace Game.Levels.Enemies {
                         await ShootAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
 						break;
 					case < 15:
-                        //swipe attack
-                        await UniTask.WhenAny(
-                            WalkToPlayerAsync(attackWalkSpeed, 3, cancellationToken: cancellationToken),
-                            RunAnimationForeverAsync(_walkAnimation, 0.2f, cancellationToken: cancellationToken));
-                        await SwipeAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
-                        break;
+                        {
+                            //swipe attack
+                            using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                            await UniTask.WhenAny(
+                                WalkToPlayerAsync(attackWalkSpeed, 3, cancellationToken: cts.Token),
+                                RunAnimationForeverAsync(_walkAnimation, 0.2f, cancellationToken: cts.Token));
+                            cts.Cancel();
+                            await SwipeAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
+                            break;
+                        }
 					case <18:
 						await BackupAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
                         //backup
