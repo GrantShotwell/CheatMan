@@ -29,7 +29,7 @@ namespace Game.Levels.Enemies
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await UniTask.WaitForSeconds(weaponSpeed);
+                //await UniTask.WaitForSeconds(weaponSpeed);
                 if (!SeenByPlayer)
                 {
                     SetState(IdleState);

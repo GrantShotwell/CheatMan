@@ -41,7 +41,7 @@ namespace Game.Levels.Enemies {
 
 		private async UniTask AttackState(CancellationToken cancellationToken) {
 			while (!cancellationToken.IsCancellationRequested) {
-				await UniTask.WaitForSeconds(weaponSpeed, cancellationToken: cancellationToken);
+				//await UniTask.WaitForSeconds(weaponSpeed, cancellationToken: cancellationToken);
 				if (!SeenByPlayer) {
 					SetState(IdleState);
 					continue;
@@ -55,8 +55,8 @@ namespace Game.Levels.Enemies {
 					case 1:
                         //swipe attack
                         await UniTask.WhenAny(
-                            WalkToPlayerAsync(attackWalkSpeed, Mathf.Abs(_player.transform.position.x - transform.position.x)-2, cancellationToken: cancellationToken),
-                            RunAnimationForeverAsync(_walkAnimation, 0.1f, cancellationToken: cancellationToken));
+                            WalkToPlayerAsync(attackWalkSpeed, 5, cancellationToken: cancellationToken),
+                            RunAnimationForeverAsync(_walkAnimation, 0.5f, cancellationToken: cancellationToken));
                         await SwipeAsync(Mathf.Sign(DirectionToPlayer.x), cancellationToken);
                         break;
 					case 2:
@@ -158,6 +158,7 @@ namespace Game.Levels.Enemies {
             {
                 await UniTask.NextFrame(PlayerLoopTiming.FixedUpdate, cancellationToken: cancellationToken);
                 Vector2 direction = Vector2.right * Mathf.Sign(DirectionToPlayer.x);
+                _spriteRenderer.flipX = Mathf.Sign(direction.x) < 0;
                 transform.position += (Vector3)(direction * speed * Time.fixedDeltaTime);
             }
         }
