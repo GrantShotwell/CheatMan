@@ -77,6 +77,11 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 		}
 
 		private bool TestCanSpawn(out Rect entityRect) {
+			if (!_prefabEntity) {
+				// Probably in edit mode.
+				entityRect = Rect.zero;
+				return false;
+			}
 			entityRect = _prefabEntity.VisibleRect;
 			entityRect.position += (Vector2)transform.position - (Vector2)_prefabEntity.transform.position;
 			return _enemies.Count < spawnCount
