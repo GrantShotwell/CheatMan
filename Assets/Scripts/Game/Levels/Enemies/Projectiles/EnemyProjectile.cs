@@ -1,15 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
-using Game.Cheats;
-using Game.Levels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.Levels.Enemies {
+namespace Game.Levels.Enemies {
 	public class EnemyProjectile : LevelEntity {
 		protected Rigidbody2D _rb;
 
@@ -45,7 +38,7 @@ namespace Assets.Scripts.Game.Levels.Enemies {
 			return UniTask.CompletedTask;
 		}
 
-		protected async UniTask LifetimeTimer(float seconds,  CancellationToken cancellationToken) {
+		protected async UniTask LifetimeTimer(float seconds, CancellationToken cancellationToken) {
 			await UniTask.WaitForSeconds(seconds, cancellationToken: cancellationToken);
 			if (gameObject) Destroy(gameObject);
 		}

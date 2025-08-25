@@ -5112,7 +5112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &162764217508970979
 Transform:
   m_ObjectHideFlags: 0
@@ -5152,7 +5152,9 @@ MonoBehaviour:
     _value: 0
   <HatGameObject>k__BackingField: {fileID: 3843233442928525059}
   rotationSpeed: 966
+  smokeCount: 12
   _particles: {fileID: 2180218486830520549}
+  _smokePrefab: {fileID: 6300154286955243131, guid: 9037e452900455a4aa1188fbd7728169, type: 3}
 --- !u!50 &7525305127297720353
 Rigidbody2D:
   serializedVersion: 5
