@@ -3122,6 +3122,7 @@ MonoBehaviour:
   - {fileID: 118862481084278597, guid: 90a55c91ce41f6245895078304f026cf, type: 3}
   _shotPrefab: {fileID: 5237721115311299508, guid: b5b86daac05ef2546abb478735ef1858, type: 3}
   _shootRightPosition: {fileID: 576648222}
+  attackWalkSpeed: 20
 --- !u!61 &182008305
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16417,7 +16418,7 @@ Transform:
   m_GameObject: {fileID: 960151348}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 337.05, y: -4.18, z: 0}
+  m_LocalPosition: {x: 337.05, y: -4.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25758,7 +25759,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.05155945, y: -2.1229029}
+  m_Offset: {x: -0.05155945, y: -3.8369627}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -25768,7 +25769,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 19.186493, y: 0.39836693}
+  m_Size: {x: 19.186493, y: 3.8264866}
   m_EdgeRadius: 0
 --- !u!212 &1622783095
 SpriteRenderer:
