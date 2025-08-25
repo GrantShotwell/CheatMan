@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c0253df07fa7e46bd76f6ce93b8183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visibleBoundsPadding: 1
   <wearingBow>k__BackingField:
     _value: 0
   <BowGameObject>k__BackingField: {fileID: 5237721115311299508, guid: 16083100549f053418b06b7fecc3b83b, type: 3}
@@ -94,7 +95,7 @@ MonoBehaviour:
     _value: 1
   <currentHealth>k__BackingField: 10
   attackAnimationSeconds: 0.8
-  throwRightVelocity: {x: 15, y: 9}
+  throwRightVelocity: {x: 30, y: 9}
   _idleAnimation:
   - {fileID: 21300000, guid: d0d1c45c133f89b46ad444c10a635e5e, type: 3}
   _attackAnimation:
