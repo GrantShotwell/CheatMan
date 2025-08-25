@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour, ICheatable, IHatWearing, IBowWear
     [Header("Ground Movement")]
     [SerializeField] public AdjustableNumber moveSpeed = new(2f);
     [SerializeField] public AdjustableNumber dashSpeedMultiplier = new(3f);
-    [SerializeField] public AdjustableNumber dashSpeed;
+    [SerializeField] public AdjustableNumber dashSpeed = new(6f);
     [SerializeField] public AdjustableNumber acceleration = new(2f);
     [SerializeField] public AdjustableNumber deceleration = new(2f);
     [SerializeField] public AdjustableNumber knockbackDist = new(5f);
